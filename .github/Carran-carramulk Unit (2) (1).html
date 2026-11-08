@@ -1,0 +1,686 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Carran-carramulk Unit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a single-page unit site. Sticky nav of lessons; home = river map; each lesson is a reading column. Neutral graphics, no Aboriginal motifs. */
+:root{
+  --bg:#f6f0e1; --surface:#fcf8ef; --fg:#45332a; --muted:#7a6b50; --line:#d8d1c1;
+  --river:#4b524c; --water:#a1b2c9; --river-soft:#e4e9ee; --bark:#7a6b50; --bark-soft:#ece4d2; --access:#585c3a; --access-soft:#e7e7d6;
+  --olive:#7b7c2e; --khaki:#a59b82; --lavender:#a09fa9; --ink:#1a160f;
+  --display:"Helvetica Neue",Helvetica,Arial,sans-serif; --body:"Helvetica Neue",Helvetica,Arial,sans-serif; --mono:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;margin:0}
+:root{color-scheme:light}
+body.big{font-size:20px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance;color:var(--ink)}
+a{color:var(--river)}
+:focus-visible{outline:3px solid var(--river);outline-offset:2px}
+.mono{font-family:var(--mono);font-size:.8em}
+
+/* nav */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:1160px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding-block:10px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--fg);text-decoration:none;margin-right:6px}
+.nav{display:flex;flex-wrap:wrap;gap:6px;flex:1}
+.nav a{font:500 .85rem var(--display);text-decoration:none;color:var(--fg);padding:6px 11px;border-radius:999px;border:1px solid var(--line)}
+.nav a[aria-current="page"]{background:var(--river);border-color:var(--river);color:var(--surface)}
+.tsize{font:500 .8rem var(--display);padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.tsize[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+
+main{max-width:1160px;margin:0 auto;padding-block:8px 64px}
+.col{max-width:760px}
+.view{padding-top:28px}
+.eyebrow{font-family:var(--mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.view h1{font-size:clamp(2rem,5.5vw,3.2rem);margin-top:8px}
+.lede{font-size:1.1em;margin:14px 0 0;max-width:62ch}
+.view h2{font-size:1.45rem;margin:40px 0 12px}
+.view h3{font-size:1.1rem;margin:0 0 6px}
+.view p{max-width:68ch}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.tag{font-family:var(--mono);font-size:.72rem;padding:3px 9px;border-radius:999px;background:var(--river-soft);color:var(--river)}
+.tag.ms{background:var(--access-soft);color:var(--access)}
+.tag.prop{background:#ebeaee;color:#55545e}
+.tag.prop{background:var(--access-soft);color:var(--access)}
+.box{padding:16px 18px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.ack{padding:14px 18px;border-left:3px solid var(--river);background:var(--river-soft);margin-top:20px;max-width:68ch}
+.steps{display:grid;gap:12px;counter-reset:s;list-style:none;padding:0;margin:0}
+.steps>li{counter-increment:s;position:relative;padding:14px 16px 14px 56px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.steps>li::before{content:counter(s);position:absolute;left:16px;top:14px;width:26px;height:26px;border-radius:50%;border:2px solid var(--river);color:var(--river);font:700 .85rem/22px var(--display);text-align:center}
+.tiers{display:grid;gap:6px;margin-top:8px}
+.tiers p{margin:0}
+.tier{font-family:var(--mono);font-size:.7rem;color:var(--river);margin-right:6px;text-transform:uppercase}
+.tbl{overflow-x:auto;margin-top:8px}
+table{border-collapse:collapse;width:100%;min-width:520px;background:var(--surface);font-size:.92em}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{font-family:var(--display);background:var(--river-soft)}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:48px;flex-wrap:wrap}
+.pager a{font:500 .95rem var(--display);text-decoration:none;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.check{list-style:none;padding:0;display:grid;gap:8px}
+.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.check input{margin-top:6px;accent-color:var(--river)}
+.frames{display:grid;gap:8px;padding-left:20px}
+
+/* home */
+.diagram{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface);margin-top:18px}
+svg{display:block;min-width:960px;width:100%;height:auto}
+svg text{font-family:var(--display);fill:var(--fg)}
+.t-xs{font-size:11px;fill:var(--muted)}.t-mono{font-family:var(--mono);font-size:11px}
+.phase rect{fill:var(--water);opacity:.55}
+.phase text{font-size:13px;font-weight:700;fill:var(--river);text-transform:uppercase;letter-spacing:.1em}
+.river-body{fill:none;stroke:var(--water);stroke-width:30;stroke-linecap:butt}
+.river-core{fill:none;stroke:var(--river);stroke-width:3;stroke-linecap:butt}
+.flow-in{stop-color:#fff}
+.trib{fill:none;stroke:var(--lavender);stroke-width:2;stroke-linecap:round}.trib.small{stroke-width:1.2}
+.trib-label{fill:#55545e;font-size:12px;font-weight:500}
+.input{fill:none;stroke:var(--bark);stroke-width:2;stroke-dasharray:6 5}
+.input-label{fill:var(--bark);font-size:12px;font-weight:500}
+.return{fill:none;stroke:var(--river);stroke-width:1.6;stroke-dasharray:3 4}
+.node{cursor:pointer}
+.node circle.dot{fill:var(--surface);stroke:var(--river);stroke-width:3}
+.node text.num{font-size:14px;font-weight:700;fill:var(--river)}
+.node circle.ring{fill:none;stroke:var(--olive);stroke-width:3}
+.node:hover circle.dot,.node:focus circle.dot{fill:var(--river)}
+.node:hover text.num,.node:focus text.num{fill:var(--surface)}
+.ms-label{fill:var(--access);font-size:12px;font-weight:700}
+.arrowhead{fill:var(--river)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:12px;font-family:var(--mono);font-size:.76rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.sw{display:inline-block;width:28px;height:0;border-top:3px solid}
+.sw.r{border-color:var(--water);border-top-width:6px;border-radius:3px}.sw.a{border-color:var(--lavender);border-top-width:2px}.sw.b{border-color:var(--bark);border-top-style:dashed;border-top-width:2px}.sw.ret{border-color:var(--river);border-top-style:dotted;border-top-width:2px}
+.ring-sw{width:14px;height:14px;border-radius:50%;border:3px solid var(--olive)}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:28px}
+.lcard{display:grid;gap:6px;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface);text-decoration:none;color:var(--fg)}
+.lcard:hover{border-color:var(--river)}
+.lcard .eyebrow{color:var(--river)}
+.lcard span.d{font-size:.92rem;color:var(--muted)}
+.map4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.map4 div{padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.map4 b{display:block;font-family:var(--display);color:var(--river)}
+.map4 span{font-size:.85rem;color:var(--muted)}
+@media (max-width:620px){.map4{grid-template-columns:1fr 1fr}}
+
+/* history (lesson 2) */
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:22px;padding:10px 0;border-bottom:1px solid var(--line)}
+.bar span{font-family:var(--mono);font-size:.75rem;color:var(--muted);margin-right:4px}
+.bar button{font:500 .85rem var(--display);padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.bar button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.layer{padding-block:32px 4px;border-bottom:1px solid var(--line)}
+.layer-head{display:grid;gap:6px;margin-bottom:18px}
+.layer-head h2{font-size:clamp(1.4rem,3.6vw,1.8rem);margin:0}
+.layer-head p{margin:0;color:var(--muted)}
+.when{font-family:var(--mono);font-size:.76rem;color:var(--river);text-transform:uppercase;letter-spacing:.1em}
+.entries{display:grid;gap:12px;list-style:none;margin:0;padding:0 0 0 22px;border-left:2px solid var(--river)}
+.entry{position:relative;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:6px}
+.entry::before{content:"";position:absolute;left:-30px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--river)}
+.entry h3{font-size:1.02rem;margin-bottom:4px}
+.entry p{margin:0}
+.entry .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.date{font-family:var(--mono);font-size:.76rem;color:var(--muted)}
+.chip{font-family:var(--mono);font-size:.72rem;padding:2px 8px;border-radius:4px;text-decoration:none}
+.chip.wur{background:var(--river-soft);color:var(--river)}
+.chip.col{background:var(--bark-soft);color:var(--bark)}
+.entry.dim{opacity:.28}
+.ask{margin:20px 0 26px;padding:16px;border:1px dashed var(--muted);border-radius:6px}
+.ask h3{font-size:.85rem;font-family:var(--mono);font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.entry{transition:opacity .25s}}
+.plan{display:grid;grid-template-columns:minmax(130px,max-content) 1fr;gap:10px 20px;margin:20px 0 0;padding:16px 18px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.plan dt{font-family:var(--display);font-weight:700;color:var(--ink)}
+.plan dd{margin:0;min-width:0}
+.plan ul{margin:0;padding-left:18px}
+@media (max-width:560px){.plan{grid-template-columns:1fr}}
+.cards3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:8px}
+.cards3 .box p{margin:6px 0 0}
+.cap-ph{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;fill:var(--river)}
+.cap-t{font-size:13px;font-weight:700;fill:var(--ink)}
+.cap-x{font-size:11px;fill:var(--muted)}
+.merri{fill:none;stroke:var(--water);stroke-width:9;stroke-linecap:round}
+.weir{stroke:var(--fg);stroke-width:3;stroke-linecap:round}
+.creek-body{fill:none;stroke:var(--water);stroke-width:14;stroke-linecap:round}
+.creek-core{fill:none;stroke:var(--river);stroke-width:1.5;stroke-linecap:round}
+.walk{fill:none;stroke-linejoin:round;stroke:var(--bark);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 7}
+.walk-label{font-size:11px;font-weight:700;fill:var(--bark)}
+.sw.w{border-color:var(--bark);border-top-style:dotted;border-top-width:3px}
+.walk-alt{fill:none;stroke:var(--bark);stroke-width:2;stroke-linecap:round;stroke-dasharray:1 6;opacity:.6}
+.btn{display:inline-block;font:700 .95rem var(--display);padding:10px 16px;border-radius:8px;background:var(--river);color:var(--surface);text-decoration:none}
+.btn:hover{opacity:.9}
+</style>
+
+<header class="top"><div class="top-in gut">
+  <a class="brand" href="#home">Carran-carramulk</a>
+  <nav class="nav" aria-label="Lessons">
+    <a href="#home">River map</a>
+    <a href="#lesson1">1</a><a href="#lesson2">2</a><a href="#lesson3">3</a><a href="#lesson4">4</a><a href="#lesson5">5</a><a href="#lesson6">6</a>
+    <a href="#about">About</a>
+  </nav>
+  <button type="button" class="tsize" id="tsize" aria-pressed="false">Larger text</button>
+</div></header>
+
+<main class="gut">
+
+<!-- HOME -->
+<section class="view" id="v-home">
+  <div class="eyebrow">Visual Communication Design · Years 9–10 · Six lessons</div>
+  <h1>Designing with Carran-carramulk</h1>
+  <p class="lede">A unit at the place now called Dights Falls, on Wurundjeri Woi-wurrung Country. It begins with where you stand and ends with a design brief written with Country. Select a lesson on the river to open it.</p>
+  <div class="ack">This is Wurundjeri Woi-wurrung Country. Sovereignty was never ceded. Cultural authority for Carran-carramulk sits with Wurundjeri Woi-wurrung people.</div>
+  <div class="diagram">
+<svg viewBox="0 0 1120 664" role="img" aria-labelledby="svgt svgd">
+  <title id="svgt">Unit schema drawn as a loop of waterways through Yarra Bend</title>
+  <desc id="svgd">Waterways traced from the Yarra Bend Park map form one complete loop. From Lesson 1 at the bottom of the Galatea Point bend, the Birrarung runs up around Galatea Point, across to Deep Rock and on to Dights Falls, where the river bends back down and flows out of the frame past Lesson 6. A dotted walking track runs along the bank between each lesson, and links Lesson 6 back to Lesson 1. Lessons in order: 1 Where do I stand? and 2 Walking Country (Listen), 3 Shared archive and 4 Hromek lens (Notice), 5 Country as brief (Make), 6 Critique circle (Reflect), which sits beside a walking path that leads back to Lesson 1. Milestones ring lessons 2, 5 and 6. Lavender tributaries mark access points.</desc>
+  <defs>
+    <linearGradient id="riverfade" x1="0" y1="0" x2="1120" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset="0.92" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="fadedown" x1="0" y1="590" x2="0" y2="664" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="1"/></linearGradient>
+    <linearGradient id="fadeup" x1="0" y1="0" x2="0" y2="90" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#000" stop-opacity="1"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <mask id="rivermask" maskUnits="userSpaceOnUse" x="0" y="-20" width="1120" height="704"><rect x="0" y="-20" width="1120" height="704" fill="url(#riverfade)"/><rect x="0" y="590" width="620" height="94" fill="url(#fadedown)"/><rect x="0" y="-20" width="1120" height="110" fill="url(#fadeup)"/><rect x="0" y="-20" width="1120" height="20" fill="#000"/></mask>
+  </defs>
+
+  <path class="trib" d="M712 462 C674 487 708 541 670 566"/>
+  <text class="trib-label" x="700" y="442" text-anchor="start">Students' own</text>
+  <text class="trib-label" x="700" y="457" text-anchor="start">relationship to Country</text>
+  <path class="trib" d="M926 252 C879 240 857 302 810 290"/>
+  <text class="trib-label" x="930" y="246" text-anchor="start">Being with Country</text>
+  <path class="trib" d="M956 128 C912 109 880 167 836 148"/>
+  <text class="trib-label" x="960" y="124" text-anchor="start">Recorded documentation</text>
+  <text class="trib-label" x="960" y="139" text-anchor="start">of Country</text>
+  <path class="trib" d="M408 70 C370 61 368 121 330 112"/>
+  <text class="trib-label" x="412" y="64" text-anchor="start">Open task brief</text>
+  <path class="trib" d="M346 610 C380 625 386 567 420 582"/>
+  <text class="trib-label" x="220" y="610" text-anchor="start">The shared knowledge</text>
+  <text class="trib-label" x="220" y="625" text-anchor="start">of community</text>
+
+  <text class="t-xs" x="188" y="36" text-anchor="end">Merri Creek</text>
+  <g mask="url(#rivermask)">
+    <path class="creek-body" d="M196 -10 C200 60 222 130 238 170 C246 188 250 200 255 212"/>
+    <path class="river-body" d="M1210 418 C1195 418 1146 419 1120 420 C1094 421 1072 421 1054 423 C1035 425 1024 427 1009 431 C994 436 976 440 963 450 C949 459 944 475 928 486 C913 498 892 510 871 521 C850 532 825 542 802 553 C779 565 754 583 733 590 C712 597 690 603 675 596 C660 588 649 564 643 544 C637 524 636 498 637 475 C638 452 641 425 649 406 C657 387 670 374 687 360 C704 346 728 334 750 320 C772 305 799 289 819 274 C839 258 860 242 871 228 C882 213 889 200 886 188 C883 175 868 161 853 155 C839 150 817 150 796 153 C775 156 750 165 727 176 C704 187 681 200 658 216 C635 233 609 256 589 274 C569 292 554 314 537 323 C521 332 505 335 491 328 C478 321 465 301 457 279 C448 258 445 224 439 199 C434 174 432 146 422 130 C413 114 396 109 382 105 C368 101 350 102 336 107 C322 112 305 122 296 136 C286 149 289 170 278 188 C268 205 250 236 232 239 C215 242 194 210 175 205 C156 200 134 206 118 210 C101 215 87 224 78 234 C69 244 64 256 66 268 C68 280 82 294 92 306 C102 318 104 326 129 343 C154 360 215 388 244 406 C273 424 279 434 302 452 C325 470 359 495 382 515 C405 535 420 552 440 570 C460 588 482 606 500 626 C518 646 533 671 545 690 C557 709 566 732 570 740" style="stroke-linejoin:round"/>
+  </g>
+  <text class="t-xs" x="362" y="175" text-anchor="middle">Deep Rock</text>
+  <text class="t-xs" x="790" y="398" text-anchor="middle">Galatea Point</text>
+  <text class="t-xs" x="20" y="198">Dights Falls</text>
+  <text class="t-xs" x="1112" y="456" text-anchor="end">from upstream</text>
+  <path class="walk" d="M664 587 L655 581 L642 576 L628 569 L618 561 L613 550 L611 538 L609 526 L608 515 L607 504 L607 492 L607 482 L607 471 L608 460 L609 449 L610 438 L612 427 L614 416 L618 404 L623 391 L629 380 L636 369 L644 359 L653 350 L661 342 L670 335 L679 328 L689 322 L698 316 L707 311 L715 306 L724 301 L732 296 L741 294 L754 295 L768 298 L780 298"/>
+  <path class="walk" d="M786 296 L792 288 L796 275 L798 262 L801 251 L808 244 L816 238 L824 232 L831 226 L837 220 L843 214 L847 210 L852 203 L855 197 L857 194 L857 195 L857 196 L855 193 L852 189 L847 186 L843 182 L841 175 L834 164 L825 155 L815 151"/>
+  <path class="walk" d="M815 151 L805 156 L797 166 L790 177 L783 185 L775 189 L767 192 L758 195 L750 198 L742 202 L733 206 L725 211 L716 215 L708 220 L700 224 L692 229 L684 234 L677 240 L670 245 L662 250 L655 256 L647 263 L640 269 L633 275 L625 282 L618 288 L610 295 L604 301 L598 307 L591 314 L584 322 L577 330 L567 338 L553 342 L538 339 L524 335 L512 332"/>
+  <path class="walk" d="M510 332 L500 335 L485 339 L468 338 L453 333 L445 323 L439 312 L434 301 L429 290 L425 279 L422 268 L420 257 L418 246 L416 236 L414 227 L412 217 L410 208 L408 197 L406 187 L405 177 L403 168 L401 160 L399 152 L397 147 L395 144 L393 142 L390 140 L384 137 L376 135 L370 133 L364 133 L358 133 L352 133 L344 130 L333 124 L320 120 L310 122"/>
+  <path class="walk" d="M308 123 L304 132 L305 144 L312 154 L316 163 L315 173 L312 186 L306 200 L300 209 L295 218 L288 228 L282 237 L273 247 L262 257 L245 267 L217 268 L200 260 L190 252 L181 245 L174 239 L169 235 L168 234 L164 233 L158 233 L150 234 L142 235 L134 237 L126 239 L119 241 L113 244 L108 248 L103 252 L99 255 L97 259 L96 261 L96 262 L95 262 L98 266 L102 272 L108 279 L115 287 L122 296 L127 302 L131 307 L137 312 L144 317 L151 321 L159 326 L167 331 L175 335 L184 340 L193 344 L202 349 L210 354 L219 358 L228 363 L238 368 L247 373 L256 378 L266 384 L275 390 L284 397 L293 404 L301 411 L308 418 L315 424 L322 430 L330 436 L338 442 L346 448 L354 454 L362 460 L370 466 L378 472 L386 479 L394 486 L402 492 L410 500 L417 507 L425 514 L432 521 L438 530 L439 542 L439 556 L441 569"/>
+  <path class="walk-alt" d="M228 363 C290 330 370 360 445 323"/>
+  <path class="walk-alt" d="M288 228 C330 260 380 230 420 258"/>
+  <path class="walk-alt" d="M144 317 C170 300 190 290 217 268"/>
+  <path class="walk-alt" d="M610 438 C625 400 600 330 618 288"/>
+  <path class="walk-alt" d="M808 244 C790 230 790 205 775 189"/>
+  <path class="walk-alt" d="M613 550 C595 565 578 578 562 596"/>
+  <path class="walk" d="M472 584 C530 592 598 602 646 594"/>
+  <text class="walk-label" x="552" y="624">Walk back to Lesson 1</text>
+  <text class="t-xs" x="498" y="656" text-anchor="end">downstream</text>
+
+  <text class="cap-ph" x="692" y="620" text-anchor="start">1 · Listen</text>
+  <text class="cap-t" x="692" y="635" text-anchor="start">Where do I stand?</text>
+  <text class="input-label" x="692" y="650" text-anchor="start">+ Wurundjeri sources</text>
+  <text class="cap-ph" x="815" y="306" text-anchor="start">2 · Listen</text>
+  <text class="cap-t" x="815" y="321" text-anchor="start">Walking Country</text>
+  <text class="input-label" x="815" y="336" text-anchor="start">+ Wurundjeri guide</text>
+  <text class="cap-ph" x="760" y="66" text-anchor="middle">3 · Notice</text>
+  <text class="cap-t" x="760" y="81" text-anchor="middle">Shared archive</text>
+  <text class="ms-label" x="760" y="96" text-anchor="middle">Field observations</text>
+  <text class="cap-x" x="760" y="111" text-anchor="middle">30-min digital lesson</text>
+  <text class="cap-ph" x="510" y="374" text-anchor="middle">4 · Notice</text>
+  <text class="cap-t" x="510" y="389" text-anchor="middle">Hromek lens</text>
+  <text class="input-label" x="510" y="404" text-anchor="middle">+ Djinjama, Danièle Hromek</text>
+  <text class="cap-ph" x="308" y="47" text-anchor="middle">5 · Make</text>
+  <text class="cap-t" x="308" y="62" text-anchor="middle">Country as brief</text>
+  <text class="ms-label" x="308" y="77" text-anchor="middle">Draft brief</text>
+  <text class="cap-ph" x="478" y="512" text-anchor="start">6 · Reflect</text>
+  <text class="cap-t" x="478" y="527" text-anchor="start">Critique circle</text>
+  <text class="ms-label" x="478" y="542" text-anchor="start">Brief + reflection</text>
+  <text class="input-label" x="478" y="557" text-anchor="start">+ Peers in the circle</text>
+
+    <g class="node" data-l="1" tabindex="0" role="button" aria-label="Lesson 1"><circle class="dot" cx="664" cy="587" r="17"/><text class="num" x="664" y="592" text-anchor="middle">1</text></g>
+  <g class="node" data-l="2" tabindex="0" role="button" aria-label="Lesson 2"><circle class="dot" cx="786" cy="296" r="17"/><text class="num" x="786" y="301" text-anchor="middle">2</text></g>
+  <g class="node" data-l="3" tabindex="0" role="button" aria-label="Lesson 3, milestone"><circle class="ring" cx="815" cy="151" r="25"/><circle class="dot" cx="815" cy="151" r="17"/><text class="num" x="815" y="156" text-anchor="middle">3</text></g>
+  <g class="node" data-l="4" tabindex="0" role="button" aria-label="Lesson 4"><circle class="dot" cx="510" cy="332" r="17"/><text class="num" x="510" y="337" text-anchor="middle">4</text></g>
+  <g class="node" data-l="5" tabindex="0" role="button" aria-label="Lesson 5, milestone"><circle class="ring" cx="308" cy="123" r="25"/><circle class="dot" cx="308" cy="123" r="17"/><text class="num" x="308" y="128" text-anchor="middle">5</text></g>
+  <g class="node" data-l="6" tabindex="0" role="button" aria-label="Lesson 6, milestone"><circle class="ring" cx="445" cy="575" r="25"/><circle class="dot" cx="445" cy="575" r="17"/><text class="num" x="445" y="580" text-anchor="middle">6</text></g>
+</svg>
+  </div>
+  <div class="legend">
+    <span><i class="sw r"></i>Lesson sequence (Birrarung)</span>
+    <span><i class="sw a"></i>Access point (tributary)</span>
+    <span style="color:var(--bark)">+ Country, community, First Nations voice</span>
+    <span><i class="ring-sw"></i>Milestone</span>
+    <span><i class="sw w"></i>Walking track</span>
+  </div>
+  <div class="lessons">
+    <a class="lcard" href="#lesson1"><span class="eyebrow">Lesson 1 · Listen</span><h3>Where do I stand?</h3><span class="d">Your own place, and the layered history of Carran-carramulk.</span></a>
+    <a class="lcard" href="#lesson2"><span class="eyebrow">Lesson 2 · Listen</span><h3>Walking Carran-carramulk</h3><span class="d">A slow, guided walk on Country.</span></a>
+    <a class="lcard" href="#lesson3"><span class="eyebrow">Lesson 3 · Notice · Milestone 1</span><h3>The shared archive</h3><span class="d">Archive what we gathered, and what an archive can't hold.</span></a>
+    <a class="lcard" href="#lesson4"><span class="eyebrow">Lesson 4 · Notice</span><h3>Designing with Country</h3><span class="d">Danièle Hromek's method, applied to our archive.</span></a>
+    <a class="lcard" href="#lesson5"><span class="eyebrow">Lesson 5 · Make · Milestone 2</span><h3>Country as brief</h3><span class="d">A design brief where Country sets the requirements.</span></a>
+    <a class="lcard" href="#lesson6"><span class="eyebrow">Lesson 6 · Reflect · Milestone 3</span><h3>Critique circle</h3><span class="d">Ethical feedback, revision and reflection.</span></a>
+  </div>
+</section>
+
+<!-- LESSON 1 -->
+<section class="view col" id="v-lesson1" hidden>
+  <div class="eyebrow">Lesson 1 · Listen</div>
+  <h1>Where do I stand?</h1>
+  <div class="meta-row"><span class="tag">Interactive timeline</span><span class="tag">Exit ticket</span></div>
+  <dl class="plan">
+    <dt>Learning intention</dt><dd>Develop a better understanding of my own relationship to place and Country, and gain insight into the layered colonial and First Nations history of Carran-carramulk (Dights Falls).</dd>
+    <dt>Success criteria</dt><dd><ul><li>I can describe a place I am connected to, what it provides me, and what I give back.</li><li>I can recall at least one Wurundjeri and one colonial layer of history.</li></ul></dd>
+  </dl>
+
+  <h2>Part 1: Map a place you are connected to</h2>
+  <p>Choose a place that matters to you: a park, a street, a kitchen, a beach, a court. Show it in any mode: drawing, writing, photo or voice memo.</p>
+  <ol class="frames">
+    <li>The place I am connected to is…</li>
+    <li>It gives me…</li>
+    <li>What I give back to it is…</li>
+    <li>If it changed or disappeared, I would feel…</li>
+  </ol>
+
+  <h2>Part 2: The layers of Carran-carramulk</h2>
+  <p>Read the history of the rock bar as layers. Each was laid over the one before, but none erased the place underneath. Audio narration for each layer is on the class page.</p>
+  <div class="box" style="margin-top:20px">
+    <h3>About the name</h3>
+    <p style="margin:0"><b>Carran-carramulk</b> is a Woiwurrung name recorded for this stretch of river and the area now called Abbotsford. Published sources say <i>carran</i> means prickly myrtle. This meaning comes from secondary sources, so we use the name with care and check it with Wurundjeri people. <b>Birrarung</b> is the river's name, recorded as meaning "river of mists". "Dights Falls" comes from John Dight's 1841 flour mill.</p>
+  </div>
+  <div class="bar" role="group" aria-label="Filter by who is speaking">
+    <span>Who is speaking?</span>
+    <button type="button" data-filter="all" aria-pressed="true" id="f-all">All sources</button>
+    <button type="button" data-filter="wur" aria-pressed="false" id="f-wur">Wurundjeri voices</button>
+    <button type="button" data-filter="col" aria-pressed="false" id="f-col">Settler records</button>
+  </div>
+  <section class="layer" aria-labelledby="l1">
+  <div class="layer-head">
+    <span class="when">Layer 1 · Deep time to now</span>
+    <h2 id="l1">The rock bar and the river</h2>
+    <p>Before any weir, this was a natural place of meeting, crossing and fishing. These uses never stopped belonging to the place.</p>
+  </div>
+  <ol class="entries">
+    <li class="entry" data-src="col">
+      <h3>Lava meets old rock</h3>
+      <p>The river narrows here, squeezed between basalt from a lava flow about 800,000 years old and a much older spur of sedimentary rock. The cliff opposite still shows the layers.</p>
+      <div class="meta"><span class="date">c. 800,000 years ago</span><a class="chip col" href="https://en.wikipedia.org/wiki/Dights_Falls" target="_blank" rel="noopener">Wikipedia</a></div>
+    </li>
+    <li class="entry" data-src="col">
+      <h3>Where salt water meets fresh</h3>
+      <p>Below the rock bar the river is tidal. Above it, the water stays fresh. The falls are a threshold between two kinds of water.</p>
+      <div class="meta"><a class="chip col" href="https://www.melbournewater.com.au/node/4406" target="_blank" rel="noopener">Melbourne Water</a></div>
+    </li>
+    <li class="entry" data-src="wur">
+      <h3>A crossing place and a fish trap</h3>
+      <p>Woi wurrung people from north of the river and Boon wurrung people from the south used the falls as a crossing point and a place to catch migrating fish. Eels (<em>iuk</em>) and other fish moved up the river past the natural rocks to breed.</p>
+      <div class="meta"><a class="chip wur" href="https://www.oldtreasurybuilding.org.au/?p=4494" target="_blank" rel="noopener">Old Treasury Building · Wurundjeri-approved</a></div>
+    </li>
+    <li class="entry" data-src="col">
+      <h3>A meeting place for clans</h3>
+      <p>The junction of Merri Creek and the Birrarung was an important meeting place for trade, marriage, settling disputes and ceremony. In January 1844 the Wurundjeri-willam hosted a very large gathering of people from across central Victoria.</p>
+      <div class="meta"><a class="chip col" href="https://walkingmaps.com.au/walk/3749" target="_blank" rel="noopener">Walking Maps</a><a class="chip col" href="https://wikipedia.com/wiki/Merri_Creek" target="_blank" rel="noopener">Wikipedia</a></div>
+    </li>
+    <li class="entry" data-src="wur">
+      <h3>Wurundjeri, the Manna Gum people</h3>
+      <p>The name Wurundjeri joins <em>wurun</em>, the manna gum common along the Birrarung, and <em>djeri</em>, a grub found in or near the tree. People and plants are named together.</p>
+      <div class="meta"><a class="chip wur" href="https://victoriancollections.net.au/items/64faa5e64519f9216161969e" target="_blank" rel="noopener">Victorian Collections · citing Wurundjeri Corporation</a></div>
+    </li>
+  </ol>
+  <div class="ask">
+    <h3>Stop and think</h3>
+    <div class="tiers">
+      <p><span class="tier">START</span>Name two reasons people gathered here.</p>
+      <p><span class="tier">GO FURTHER</span>Why would a narrow part of a river be a good meeting place? Think like a designer about how land shapes movement.</p>
+    </div>
+  </div>
+</section>
+<section class="layer" aria-labelledby="l2">
+  <div class="layer-head">
+    <span class="when">Layer 2 · 1803 to 1851</span>
+    <h2 id="l2">The colonial line</h2>
+    <p>Settlers arrived, built a weir across the rock bar and set up government stations nearby. The place became what historians call a "contact zone".</p>
+  </div>
+  <ol class="entries">
+    <li class="entry" data-src="col">
+      <h3>A boat party reaches the falls</h3>
+      <p>A survey party led by Charles Grimes rowed up the river and reached the falls on 8 February 1803. A marker above the falls calls them the first white men to "discover" the river. People had lived with this river for tens of thousands of years.</p>
+      <div class="meta"><span class="date">1803</span><a class="chip col" href="https://en.wikipedia.org/wiki/Dights_Falls" target="_blank" rel="noopener">Wikipedia</a></div>
+    </li>
+    <li class="entry" data-src="col">
+      <h3>The first weir and the Ceres mill</h3>
+      <p>John Dight bought the land in 1838. With his brother Charles he built a weir above the falls to power the Ceres flour mill, finished in 1841. The weir became a barrier for the fish that had moved past the rocks for generations.</p>
+      <div class="meta"><span class="date">1838–1841</span><a class="chip col" href="https://www.emelbourne.net.au/biogs/EM00467b.htm" target="_blank" rel="noopener">eMelbourne</a></div>
+    </li>
+    <li class="entry" data-src="col">
+      <h3>The Protectorate and the Native Police</h3>
+      <p>Assistant Protector William Thomas was based close to the falls from 1843 to 1847. The Native Police Corps was stationed nearby in 1843–44. These were government attempts to control Aboriginal people's lives on their own Country.</p>
+      <div class="meta"><span class="date">1843–1847</span><a class="chip col" href="https://www.emelbourne.net.au/biogs/EM00467b.htm" target="_blank" rel="noopener">eMelbourne</a></div>
+    </li>
+    <li class="entry" data-src="col">
+      <h3>The Merri Creek Aboriginal School</h3>
+      <p>Just upstream, the Merri Creek Aboriginal School ran from 1845 to 1851, supported by the ngurungaeta (clan head) Billibellary. Wurundjeri people today trace their ancestry to students of this school. The school, Protectorate and burial sites are listed as one of the most significant post-contact Aboriginal places in Melbourne.</p>
+      <div class="meta"><span class="date">1845–1851</span><a class="chip col" href="https://www.emelbourne.net.au/biogs/EM00467b.htm" target="_blank" rel="noopener">eMelbourne</a><a class="chip col" href="https://vhd-dr.heritage.vic.gov.au/places/101815" target="_blank" rel="noopener">Heritage Victoria</a></div>
+    </li>
+  </ol>
+  <div class="ask">
+    <h3>Stop and think</h3>
+    <div class="tiers">
+      <p><span class="tier">START</span>The weir is a straight line across moving water. What did it add, and what did it take away?</p>
+      <p><span class="tier">GO FURTHER</span>Read the 1803 entry again. Whose story does the word "discover" tell, and whose does it leave out?</p>
+    </div>
+  </div>
+</section>
+<section class="layer" aria-labelledby="l3">
+  <div class="layer-head">
+    <span class="when">Layer 3 · 1890s to 1970s</span>
+    <h2 id="l3">Concrete and freeway</h2>
+    <p>More infrastructure was built over the place. Some of it covered the earlier layers completely.</p>
+  </div>
+  <ol class="entries">
+    <li class="entry" data-src="col">
+      <h3>A licensed weir and a water scheme</h3>
+      <p>In 1891 the Melbourne Flour Milling Company was licensed to build and maintain a weir here. Water from the falls also supplied the Royal Botanic Gardens from the 1890s to the 1930s. Milling here seems to have ended by 1909.</p>
+      <div class="meta"><span class="date">1891–1930s</span><a class="chip col" href="https://www.weekendnotes.com/dights-falls/" target="_blank" rel="noopener">Weekend Notes</a><a class="chip col" href="https://en.wikipedia.org/wiki/Dights_Falls" target="_blank" rel="noopener">Wikipedia</a></div>
+    </li>
+    <li class="entry" data-src="col">
+      <h3>Yarra Bend Park</h3>
+      <p>Land to the east became Yarra Bend Park in 1933. For most of the 20th century the falls themselves were hard for the public to reach.</p>
+      <div class="meta"><span class="date">1933</span><a class="chip col" href="https://www.emelbourne.net.au/biogs/EM00467b.htm" target="_blank" rel="noopener">eMelbourne</a></div>
+    </li>
+    <li class="entry" data-src="col">
+      <h3>The Eastern Freeway</h3>
+      <p>Building the Eastern Freeway, finished in 1972, changed the course of the river and destroyed the Deep Rock Basin. The freeway and a bike path now pass over the sites of the school and Protectorate.</p>
+      <div class="meta"><span class="date">1970s</span><a class="chip col" href="https://www.emelbourne.net.au/biogs/EM00467b.htm" target="_blank" rel="noopener">eMelbourne</a><a class="chip col" href="https://vhd-dr.heritage.vic.gov.au/places/101815" target="_blank" rel="noopener">Heritage Victoria</a></div>
+    </li>
+  </ol>
+  <div class="ask">
+    <h3>Stop and think</h3>
+    <div class="tiers">
+      <p><span class="tier">START</span>Find one thing in this layer that covered up something older.</p>
+      <p><span class="tier">GO FURTHER</span>Where can you see a straight line laid across the fluid lines of the river?</p>
+    </div>
+  </div>
+</section>
+<section class="layer" aria-labelledby="l4">
+  <div class="layer-head">
+    <span class="when">Layer 4 · Now</span>
+    <h2 id="l4">Repair, care and continuing connection</h2>
+    <p>Some recent work tries to undo damage. Wurundjeri people continue to gather here and care for Country.</p>
+  </div>
+  <ol class="entries">
+    <li class="entry" data-src="col">
+      <h3>The fishway</h3>
+      <p>A vertical-slot fishway was built beside the weir in 2012 so that fish such as the threatened Australian grayling and the short-finned eel can move upstream again.</p>
+      <div class="meta"><span class="date">2012</span><a class="chip col" href="https://www.ari.vic.gov.au/__data/assets/word_doc/0027/56781/VEFMAP-Fact-sheet-3-Benefits-of-ewater-Aust-Grayling-spawning.docx" target="_blank" rel="noopener">Arthur Rylah Institute</a></div>
+    </li>
+    <li class="entry" data-src="col">
+      <h3>Replanting the creek</h3>
+      <p>Groups such as the Merri Creek Management Committee and Friends of Merri Creek replant local species including red gum, manna gum, black wattle and murnong (yam daisy). The Wurundjeri Woi-wurrung Narrap team helps manage land along the Merri.</p>
+      <div class="meta"><a class="chip col" href="https://mcmc.org.au/parkland-management/parkland-management-news?start=54" target="_blank" rel="noopener">Merri Creek Management Committee</a></div>
+    </li>
+    <li class="entry" data-src="wur">
+      <h3>A living place</h3>
+      <p>The Wurundjeri Woi-wurrung Education Unit runs cultural walks from Abbotsford Convent to Dights Falls. Wurundjeri educators share stories of their connection to the falls and their responsibility to heal Country.</p>
+      <div class="meta"><span class="date">Today</span><a class="chip wur" href="https://events.humanitix.com/dights-falls-cultural-walking-tour-2" target="_blank" rel="noopener">Wurundjeri Woi-wurrung Education Unit</a></div>
+    </li>
+  </ol>
+  <div class="ask">
+    <h3>Stop and think</h3>
+    <div class="tiers">
+      <p><span class="tier">START</span>Is the fishway a fix, or a patch on a bigger problem? Give a reason.</p>
+      <p><span class="tier">GO FURTHER</span>Press "Settler records". How much of this history comes from settler institutions? What does that tell you about where we need to listen next?</p>
+    </div>
+  </div>
+</section>
+
+  <h2>Exit ticket</h2>
+  <div class="box">
+    <p style="margin:0"><b>One thing I aim to document on our excursion is…</b></p>
+    <p style="margin:8px 0 0">It can be literal, such as an object, a piece of architecture or a plant or animal. It can also be abstract, such as <i>change</i> or <i>dislocation</i>.</p>
+  </div>
+  <h2>Supports</h2>
+  <ul><li>Choose your own mode for Part 1.</li><li>Use the larger-text button and the audio narration.</li><li>Sentence starters above support EAL/D students.</li></ul>
+  <div class="pager"><a href="#home">← River map</a><a href="#lesson2">Lesson 2 →</a></div>
+</section>
+
+<!-- LESSON 2 -->
+<section class="view col" id="v-lesson2" hidden>
+  <div class="eyebrow">Lesson 2 · Listen</div>
+  <h1>Walking Carran-carramulk</h1>
+  <div class="meta-row"><span class="tag">Excursion</span></div>
+  <dl class="plan">
+    <dt>Learning intention</dt><dd>Observe, record and feel Country through attentive, respectful looking and listening.</dd>
+    <dt>Success criteria</dt><dd><ul><li>I can gather at least five observations across drawing, photography and writing.</li><li>I can follow site protocols.</li></ul></dd>
+  </dl>
+  <h2>On arrival</h2>
+  <p>We begin with an Acknowledgement of Country, ideally led by a Wurundjeri guide from the Wurundjeri Woi-wurrung Education Unit. Listen first. Pencils and phones down.</p>
+  <h2>Site protocols</h2>
+  <ul>
+    <li>Walk slowly and stay with your group.</li>
+    <li>Only record what you are told you can record. No photos of people or ceremony without permission.</li>
+    <li>Nothing leaves Country: no rocks, plants, bark or feathers.</li>
+  </ul>
+  <h2>Prompt cards</h2>
+  <p>Take a card at each stop. Gather at least five observations in total, using at least two of drawing, photography and writing.</p>
+  <div class="cards3">
+    <div class="box"><h3>Sense</h3><p>Stand still for one minute. What can you hear, smell and feel? Which sounds are human and which are not?</p></div>
+    <div class="box"><h3>Signs of change</h3><p>Find something that has been added, removed, repaired or worn away. Who or what changed it?</p></div>
+    <div class="box"><h3>Landmarks in context</h3><p>At the weir, the fishway and the Merri Creek junction, recall what you learned in Lesson 1. What layer are you looking at?</p></div>
+  </div>
+  <h2>Your exit-ticket focus</h2>
+  <p>Look for the thing you said you would document in Lesson 1. Record it at least once.</p>
+  <h2>Choose your way of walking</h2>
+  <ul>
+    <li><b>Guided:</b> use the icon-based prompt cards in order.</li>
+    <li><b>Wander:</b> if you work well independently, roam within the agreed area and set your own prompts.</li>
+    <li>Record in any medium. If the freeway noise is too much, tell your teacher and use ear protection or a quieter spot.</li>
+  </ul>
+  <h2>If you can't attend</h2>
+  <p>Use the teacher's field audio, photo set and the class Padlet. Complete the same prompts from those. Your observations count equally.</p>
+  <div class="pager"><a href="#lesson1">← Lesson 1</a><a href="#lesson3">Lesson 3 →</a></div>
+</section>
+
+<!-- LESSON 3 -->
+<section class="view col" id="v-lesson3" hidden>
+  <div class="eyebrow">Lesson 3 · Notice</div>
+  <h1>The shared archive</h1>
+  <div class="meta-row"><span class="tag ms">Milestone 1: field observations</span><span class="tag">30-minute digital lesson</span><span class="tag">Padlet</span></div>
+  <dl class="plan">
+    <dt>Learning intentions</dt><dd>Curate our collected material to see how we see Country, and see what is lost when we describe and visualise a place rather than experience it directly.</dd>
+    <dt>Success criteria</dt><dd><ul><li>I can upload and caption two or three pieces on the class Padlet.</li><li>I can respond meaningfully to a peer's post.</li><li>I can name one limit of describing Country through a digital archive.</li></ul></dd>
+  </dl>
+  <p><a class="btn" href="https://padlet.com/hughburry1/carran-carramulk-s0251kkqo90laoa8b0i8" target="_blank" rel="noopener">Open the Carran-carramulk Padlet</a></p>
+  <p>Our archive isn't organised as a map with coordinates. It's organised by experience. Each section of the Padlet is a way of meeting Carran-carramulk, and you choose where your piece belongs.</p>
+  <h2>Steps</h2>
+  <ol class="steps">
+    <li><h3>Choose a section</h3><p>Look through the sections and choose the one that best fits what you experienced. If none of them fits, add a new section with your own heading. That counts as a contribution too.</p></li>
+    <li><h3>Upload and caption</h3><p>Add two or three pieces from the walk: a drawing, photo, piece of writing or voice note.</p>
+      <p class="box">Caption frame: <b>What:</b> This is… <b>Where:</b> I found it at… <b>What I noticed:</b> I noticed…</p></li>
+    <li><h3>Respond to a peer</h3><p>Comment on one classmate's post: "I notice… I wonder…"</p></li>
+    <li><h3>Spot a cluster or a gap</h3><p>Which sections filled up quickly? Which stayed empty? What did nobody record, and why might that be?</p></li>
+    <li><h3>Closing reflection</h3><p>Post one sentence to the Padlet: what does our archive show about Carran-carramulk, and what does it leave out? If there's no section for this yet, start one called "What the archive can't hold".</p></li>
+  </ol>
+  <h2>Supports</h2>
+  <ul>
+    <li>Record an audio caption instead of typing.</li>
+    <li>Use the caption frame above.</li>
+    <li>If you couldn't attend the walk, post from the teacher's field audio and photo set.</li>
+    <li><b>Extension:</b> look across every section and name a pattern. Post it as a comment on the section it connects to.</li>
+  </ul>
+  <h2>Using the Padlet ethically</h2>
+  <ul>
+    <li>Don't upload photos of people or of anything you were asked not to record.</li>
+    <li>Keep Woiwurrung words to those shared by Wurundjeri sources, and say where they came from.</li>
+    <li>Comment on the work, not the person. Every post is someone's experience of this place.</li>
+  </ul>
+  <div class="pager"><a href="#lesson2">← Lesson 2</a><a href="#lesson4">Lesson 4 →</a></div>
+</section>
+
+<!-- LESSON 4 -->
+<section class="view col" id="v-lesson4" hidden>
+  <div class="eyebrow">Lesson 4 · Notice</div>
+  <h1>Designing with Country: Danièle Hromek</h1>
+  <div class="meta-row"><span class="tag">Djinjama viewing guide</span><span class="tag">Jigsaw groups</span></div>
+  <dl class="plan">
+    <dt>Learning intention</dt><dd>Analyse how a First Nations designer, Danièle Hromek, works with Country, and apply that lens to our archive.</dd>
+    <dt>Success criteria</dt><dd><ul><li>I can identify and explain one principle of Hromek's practice.</li><li>I can re-read my archive through that lens and annotate what I missed.</li></ul></dd>
+  </dl>
+  <p>Dr Danièle Hromek (Budawang/Dhurga/Yuin and Burrier/Dharawal) founded the design studio Djinjama. <a href="https://djinjama.com" target="_blank" rel="noopener">Open djinjama.com in a new tab</a>.</p>
+  <div class="ack"><b>Method, not knowledge.</b> We are learning how Hromek works with Country. We are not borrowing Yuin knowledge or language for Wurundjeri Country. For example, <i>Nura</i> is a word for Country in Sydney-region languages, so we don't carry it into our own work.</div>
+  <h2>Part 1: Jigsaw groups</h2>
+  <p>Each group explores one Djinjama project from the Design page. Report back to the class.</p>
+  <ol class="steps">
+    <li><h3>Listen at the threshold</h3><p>Read the Acknowledgement on the landing page aloud before entering the site. Why make visitors pause here?</p></li>
+    <li><h3>Notice the design</h3><p>List three visual choices. What does the layout put first?</p></li>
+    <li><h3>Find one principle</h3><p>Choose one value from the About page, such as "Always Country" or "Consume with conscience". Find evidence of it in your project. Who else shaped the design?</p></li>
+  </ol>
+  <h2>Part 2: Re-read the archive</h2>
+  <p>Return to the <a href="https://padlet.com/hughburry1/carran-carramulk-s0251kkqo90laoa8b0i8" target="_blank" rel="noopener">Lesson 3 Padlet</a>. Comment on your own posts in response to one question:</p>
+  <p class="box"><b>Where has design disregarded Country, or where could design happen with Country?</b></p>
+  <p>Annotate in words or visually (arrows, circles, overlays). Add one thing you missed the first time.</p>
+  <h2>Supports</h2>
+  <ul>
+    <li>Jigsaw groups share the reading load.</li>
+    <li>Annotate visually if you prefer.</li>
+    <li><b>Extension reading:</b> <a href="https://architectureau.com/articles/are-you-really-designing-with-country/" target="_blank" rel="noopener">"Are you really Designing with Country?"</a> (ArchitectureAU).</li>
+  </ul>
+  <p>Think-pair-share: tell a partner the principle you chose and one pin you would re-read through it.</p>
+  <div class="pager"><a href="#lesson3">← Lesson 3</a><a href="#lesson5">Lesson 5 →</a></div>
+</section>
+
+<!-- LESSON 5 -->
+<section class="view col" id="v-lesson5" hidden>
+  <div class="eyebrow">Lesson 5 · Make</div>
+  <h1>Country as brief</h1>
+  <div class="meta-row"><span class="tag ms">Milestone 2: draft brief</span><span class="tag">Brief template</span></div>
+  <dl class="plan">
+    <dt>Learning intention</dt><dd>Write a design brief in which Country's needs set the requirements.</dd>
+    <dt>Success criteria</dt><dd><ul><li>My brief identifies context, needs, constraints and stakeholders.</li><li>It says whose knowledge it draws on and what I don't know.</li><li>It considers what Country might refuse, including removal or no intervention.</li></ul></dd>
+  </dl>
+  <h2>The task</h2>
+  <p>Draft a brief for an object or intervention that adds to or removes something from Carran-carramulk. Your teacher will model a brief first.</p>
+  <h2>Brief template</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Section</th><th>Sentence starter</th></tr></thead>
+    <tbody>
+      <tr><td><b>Context</b></td><td>My spot at Carran-carramulk is… Its layers include…</td></tr>
+      <tr><td><b>Country's needs</b></td><td>The river, plants and animals here need…</td></tr>
+      <tr><td><b>Constraints</b></td><td>My design must not… It must stay within…</td></tr>
+      <tr><td><b>Stakeholders</b></td><td>The people and more-than-human beings affected are…</td></tr>
+      <tr><td><b>Whose knowledge</b></td><td>My brief draws on knowledge from… I don't know…</td></tr>
+      <tr><td><b>What Country might refuse</b></td><td>Country might not want… The option of removal or no intervention would mean…</td></tr>
+      <tr><td><b>Proposal</b></td><td>I propose to add / remove… because…</td></tr>
+    </tbody>
+  </table></div>
+  <h2>Protocol: what we are permitted to make</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Ours to make</th><th>Ask first</th><th>Not ours to make</th></tr></thead>
+    <tbody>
+      <tr><td>Original responses to the place you observed</td><td>Woiwurrung words, only from published Wurundjeri sources, credited</td><td>Wurundjeri patterns, motifs or carving designs</td></tr>
+      <tr><td>Habitat, weed or litter interventions</td><td>Anything that names or tells a Wurundjeri story</td><td>"Aboriginal-style" dot work or symbols</td></tr>
+      <tr><td>Wayfinding, signage, maps and labels in your own visual language</td><td>Collaborations with community groups</td><td>Images of Bunjil or other Ancestral beings</td></tr>
+      <tr><td>Sound pieces, posters, speculative proposals</td><td>Photos of people at the site</td><td>Taking rocks, plants or bark from the site</td></tr>
+    </tbody>
+  </table></div>
+  <h2>Choose your format</h2>
+  <ul>
+    <li><b>Scaffolded:</b> the template and sentence starters above.</li>
+    <li><b>Open:</b> write your brief in your own structure, covering every section.</li>
+    <li><b>Visual brief:</b> a moodboard with annotations for each section.</li>
+  </ul>
+  <p>Your teacher will check in with you against the rubric. This draft begins your summative task.</p>
+  <div class="pager"><a href="#lesson4">← Lesson 4</a><a href="#lesson6">Lesson 6 →</a></div>
+</section>
+
+<!-- LESSON 6 -->
+<section class="view col" id="v-lesson6" hidden>
+  <div class="eyebrow">Lesson 6 · Reflect</div>
+  <h1>Critique circle</h1>
+  <div class="meta-row"><span class="tag ms">Milestone 3: revised brief and reflection</span><span class="tag">Summative</span></div>
+  <dl class="plan">
+    <dt>Learning intentions</dt><dd>Give and use feedback to make our briefs more ethical and culturally responsible.</dd>
+    <dt>Success criteria</dt><dd><ul><li>I can give warm and cool feedback, including one ethics question.</li><li>I can revise my brief in response.</li><li>I can reflect on how my relationship to Country has shifted since Lesson 1.</li></ul></dd>
+  </dl>
+  <h2>The circle</h2>
+  <ol class="steps">
+    <li><h3>Present</h3><p>The maker shares their brief in one minute.</p></li>
+    <li><h3>Warm feedback</h3><p>"What works well is…"</p></li>
+    <li><h3>Cool feedback</h3><p>"I wonder whether… Could you…"</p></li>
+    <li><h3>One ethics question</h3><p>Every critique must ask one of these:</p>
+      <div class="cards3"><div class="box"><b>Who benefits?</b></div><div class="box"><b>Who was consulted?</b></div><div class="box"><b>With Country, or for it?</b></div></div></li>
+    <li><h3>Revise</h3><p>Change at least one part of your brief in response.</p></li>
+  </ol>
+  <h2>Reflection: back to where you stand</h2>
+  <p>Return to the place you mapped in Lesson 1. Write, record or draw a short reflection.</p>
+  <ol class="frames">
+    <li>In Lesson 1, I described my relationship to my place as…</li>
+    <li>Since walking Carran-carramulk, I now think…</li>
+    <li>One thing I chose not to design, and why…</li>
+    <li>My responsibility to this place, and to mine, is…</li>
+  </ol>
+  <h2>Self-check</h2>
+  <ul class="check">
+    <li><label><input type="checkbox" id="c1">My brief covers context, needs, constraints and stakeholders.</label></li>
+    <li><label><input type="checkbox" id="c2">It says whose knowledge it draws on and what I don't know.</label></li>
+    <li><label><input type="checkbox" id="c3">It considers removal or no intervention.</label></li>
+    <li><label><input type="checkbox" id="c4">I gave warm and cool feedback, with one ethics question.</label></li>
+    <li><label><input type="checkbox" id="c5">I revised my brief and wrote my reflection.</label></li>
+  </ul>
+  <h2>Supports</h2>
+  <ul><li>Feedback sentence prompts above.</li><li>Give critique in writing or out loud.</li><li>Small, stable groups if sharing is hard for you.</li></ul>
+  <div class="pager"><a href="#lesson5">← Lesson 5</a><a href="#about">About this unit →</a></div>
+</section>
+
+<!-- ABOUT -->
+<section class="view col" id="v-about" hidden>
+  <div class="eyebrow">For teachers and assessors</div>
+  <h1>About this unit</h1>
+  <p class="lede">A six-lesson Visual Communication Design unit for Years 9–10, located at Carran-carramulk (Dights Falls) on Wurundjeri Woi-wurrung Country. Students move from their own relationship to place, through a guided walk and a shared digital archive, to a design brief in which Country sets the requirements. Lesson 3 is the 30-minute digital lesson.</p>
+  <h2>The river metaphor</h2>
+  <p>The schema is drawn as the Birrarung below Merri Creek. The main channel is the lesson sequence, tributaries are access points, inputs from below are where Country, community and First Nations voices enter, and rings mark milestones. The river is a metaphor drawn from observing the site's waterways, not a First Nations framework.</p>
+  <h2>The four phases</h2>
+  <p>Student-facing phase names map onto the design process language of Visual Communication Design. The cycle repeats inside each lesson and across the whole unit.</p>
+  <div class="map4">
+    <div><b>Listen</b><span>Discover</span></div>
+    <div><b>Notice</b><span>Define</span></div>
+    <div><b>Make</b><span>Develop</span></div>
+    <div><b>Reflect</b><span>Deliver</span></div>
+  </div>
+  <h2>Cultural authority</h2>
+  <p>Wurundjeri knowledge of the site comes from Wurundjeri voices, through the Wurundjeri Woi-wurrung Education Unit and Wurundjeri-approved sources. The name Carran-carramulk and any Woiwurrung words should be checked with the Education Unit before use.</p>
+  <div class="pager"><a href="#lesson6">← Lesson 6</a><a href="#home">River map</a></div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  var views=['home','lesson1','lesson2','lesson3','lesson4','lesson5','lesson6','about'];
+  function show(){
+    var h=(location.hash||'').replace('#','');
+    if(views.indexOf(h)<0) h='home';
+    views.forEach(function(v){var el=document.getElementById('v-'+v); if(el) el.hidden=(v!==h);});
+    [].slice.call(document.querySelectorAll('.nav a')).forEach(function(a){
+      if(a.getAttribute('href')==='#'+h) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+    });
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',show); show();
+  [].slice.call(document.querySelectorAll('.node')).forEach(function(n){
+    function go(){location.hash='lesson'+n.getAttribute('data-l');}
+    n.addEventListener('click',go);
+    n.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}});
+  });
+  var btns=[].slice.call(document.querySelectorAll('[data-filter]'));
+  var entries=[].slice.call(document.querySelectorAll('.entry'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    var f=b.getAttribute('data-filter');
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    entries.forEach(function(e){e.classList.toggle('dim',f!=='all'&&e.getAttribute('data-src')!==f);});
+  });});
+  var t=document.getElementById('tsize');
+  t.addEventListener('click',function(){var on=document.body.classList.toggle('big');t.setAttribute('aria-pressed',on?'true':'false');});
+})();
+</script>
+
+</body></html>
